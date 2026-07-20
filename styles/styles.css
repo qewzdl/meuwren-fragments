@@ -108,23 +108,69 @@ main {
 .fragment-end__title {
     color: #ffffff;
     font-size: clamp(28px, 6vw, 56px);
+    font-weight: 600;
 }
 
 .fragment-end__hint {
-    margin-top: 32px;
+    margin-top: 16px;
     color: #ffffff;
     font-size: 13px;
-    opacity: 0.4;
-    animation: end-hint-pulse 2.5s ease-in-out infinite;
+    line-height: 1.5;
+    opacity: 0.45;
 }
 
-@keyframes end-hint-pulse {
-    0%,
-    100% {
-        opacity: 0.3;
+.fragment-end__hint--touch {
+    display: none;
+}
+
+.fragment-end__exit {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 24px;
+    padding: 12px 24px;
+
+    border: 1px solid #ffffff;
+
+    color: #ffffff;
+    background-color: transparent;
+
+    font-family: inherit;
+    font-size: 14px;
+    text-decoration: none;
+
+    transition:
+        color 0.2s ease,
+        background-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.fragment-end__exit:hover {
+    color: #000000;
+    background-color: #ffffff;
+}
+
+.fragment-end__exit:active {
+    transform: scale(0.97);
+}
+
+.fragment-end__exit:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 4px;
+}
+
+@media (hover: none) and (pointer: coarse) {
+    .fragment-end__hint--desktop {
+        display: none;
     }
 
-    50% {
-        opacity: 0.7;
+    .fragment-end__hint--touch {
+        display: block;
+    }
+
+    .fragment-end__exit {
+        min-width: 220px;
+        min-height: 48px;
     }
 }

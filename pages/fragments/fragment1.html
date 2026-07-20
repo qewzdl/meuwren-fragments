@@ -179,7 +179,7 @@
             <p class="paragraph" data-i18n="finalQuestion"></p>
         </section>
 
-        <div class="fragment-step fragment-step--end">
+        <section class="fragment-step fragment-step--end">
             <p class="fragment-end__label" data-i18n="endLabel">
                 Фрагмент завершён
             </p>
@@ -188,10 +188,28 @@
                 Meuwren Fragments
             </p>
 
-            <p class="fragment-end__hint" data-i18n="endHint">
+            <p
+                class="fragment-end__hint fragment-end__hint--desktop"
+                data-i18n="endHintDesktop"
+            >
                 Нажмите слева или используйте ←, чтобы вернуться
             </p>
-        </div>
+
+            <p
+                class="fragment-end__hint fragment-end__hint--touch"
+                data-i18n="endHintTouch"
+            >
+                Коснитесь левой части экрана, чтобы вернуться
+            </p>
+
+            <a
+                class="fragment-end__exit"
+                href="/"
+                data-i18n="exitButton"
+            >
+                Вернуться к фрагментам
+            </a>
+        </section>
     </main>
 
     <script src="../../scripts/lang.js"></script>

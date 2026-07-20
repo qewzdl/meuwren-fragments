@@ -14,7 +14,9 @@ const fragments = {
             whyLie: "– Why lie to yourself?",
             finalQuestion: "Is there anything worse than deceiving yourself?",
             endLabel: "Fragment complete",
-            endHint: "Click on the left or press ← to go back"
+            endHintDesktop: "Click on the left or press ← to go back.",
+            endHintTouch: "Tap the left side of the screen to go back.",
+            exitButton: "Back to fragments"
         }
     },
 
@@ -33,7 +35,9 @@ const fragments = {
             whyLie: "– Зачем обманывать себя?",
             finalQuestion: "Разве есть что-то хуже, чем быть обманутым самим собой?",
             endLabel: "Фрагмент завершён",
-            endHint: "Нажмите слева или используйте ←, чтобы вернуться"
+            endHintDesktop: "Нажмите слева или используйте ←, чтобы вернуться.",
+            endHintTouch: "Коснитесь левой части экрана, чтобы вернуться.",
+            exitButton: "Вернуться к фрагментам"
         }
     }
 };

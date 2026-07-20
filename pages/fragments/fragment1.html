@@ -41,6 +41,34 @@
             text-align: center;
         }
 
+        /* Dialogue */
+
+        .dialogue {
+            width: min(100%, 720px);
+            margin: 0;
+            padding: 10px 18px;
+
+            border-left: 1px solid rgba(255, 255, 255, 0.6);
+
+            color: #ffffff;
+        }
+
+        .dialogue__text {
+            font-size: clamp(14px, 2vw, 18px);
+            font-weight: 400;
+            font-style: italic;
+            line-height: 1.6;
+            text-align: left;
+        }
+
+        .dialogue--final {
+            padding-block: 14px;
+        }
+
+        .dialogue--final .dialogue__text {
+            font-size: clamp(15px, 2.2vw, 19px);
+        }
+
         /* Images */
 
         .image-container {
@@ -206,6 +234,16 @@
             .paragraph {
                 padding-inline: 4px;
             }
+
+            .dialogue {
+                width: calc(100% - 16px);
+                padding: 8px 14px;
+            }
+
+            .dialogue__text,
+            .dialogue--final .dialogue__text {
+                font-size: 14px;
+            }
         }
 
         @media (hover: none) and (pointer: coarse) {
@@ -352,13 +390,17 @@
                 >
             </div>
 
-            <p class="paragraph" data-i18n="whyLie"></p>
+            <blockquote class="dialogue">
+                <p class="dialogue__text" data-i18n="whyLie"></p>
+            </blockquote>
         </section>
 
         <!-- Frame 11: text -->
 
         <section class="fragment-step">
-            <p class="paragraph" data-i18n="finalQuestion"></p>
+            <blockquote class="dialogue dialogue--final">
+                <p class="dialogue__text" data-i18n="finalQuestion"></p>
+            </blockquote>
         </section>
 
         <!-- End screen -->

@@ -91,3 +91,40 @@ main {
         border-top: 1px solid #000000;
     } 
 }
+
+.fragment-step--end {
+    text-align: center;
+    gap: 16px;
+}
+
+.fragment-end__label {
+    color: #ffffff;
+    font-size: 14px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.6;
+}
+
+.fragment-end__title {
+    color: #ffffff;
+    font-size: clamp(28px, 6vw, 56px);
+}
+
+.fragment-end__hint {
+    margin-top: 32px;
+    color: #ffffff;
+    font-size: 13px;
+    opacity: 0.4;
+    animation: end-hint-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes end-hint-pulse {
+    0%,
+    100% {
+        opacity: 0.3;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
+}

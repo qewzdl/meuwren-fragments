@@ -12,7 +12,9 @@ const fragments = {
             mirrorBeginning: "One morning, he looked into the mirror...",
             reflection: "...and saw the man he had never wanted to become.",
             whyLie: "– Why lie to yourself?",
-            finalQuestion: "Is there anything worse than deceiving yourself?"
+            finalQuestion: "Is there anything worse than deceiving yourself?",
+            endLabel: "Fragment complete",
+            endHint: "Click on the left or press ← to go back"
         }
     },
 
@@ -29,7 +31,9 @@ const fragments = {
             mirrorBeginning: "Однажды утром он посмотрел в зеркало...",
             reflection: "...и увидел человека, которым никогда не хотел стать.",
             whyLie: "– Зачем обманывать себя?",
-            finalQuestion: "Разве есть что-то хуже, чем быть обманутым самим собой?"
+            finalQuestion: "Разве есть что-то хуже, чем быть обманутым самим собой?",
+            endLabel: "Фрагмент завершён",
+            endHint: "Нажмите слева или используйте ←, чтобы вернуться"
         }
     }
 };

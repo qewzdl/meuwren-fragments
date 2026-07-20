@@ -15,6 +15,8 @@
 
         main {
             padding: 72px 24px 40px;
+            user-select: none;
+            touch-action: manipulation;
         }
 
         .language-selector {
@@ -55,10 +57,6 @@
         .fragment-step--active {
             display: flex;
             animation: fragment-step-appearance 0.35s ease-out;
-        }
-
-        .phrase {
-            color: rgb(125, 201, 255);
         }
 
         @keyframes fragment-step-appearance {
@@ -173,12 +171,12 @@
                 <img src="../../images/fragment1/4.png" alt="The graduation photograph burning">
             </div>
 
-            <p class="paragraph phrase" data-i18n="whyLie"></p>
+            <p class="paragraph" data-i18n="whyLie"></p>
         </section>
 
         <!-- Frame 11: text -->
         <section class="fragment-step">
-            <p class="paragraph phrase" data-i18n="finalQuestion"></p>
+            <p class="paragraph" data-i18n="finalQuestion"></p>
         </section>
     </main>
 
@@ -238,6 +236,54 @@
                     event.preventDefault();
                     showPreviousStep();
                 }
+            });
+
+            let pointerStart = null;
+            const maximumTapMovement = 12;
+
+            function isNavigationControl(target) {
+                return target instanceof Element && (
+                    target.closest('.language-selector') ||
+                    target.closest('input, textarea, select, button, a')
+                );
+            }
+
+            document.addEventListener('pointerdown', (event) => {
+                if (event.pointerType === 'mouse' && event.button !== 0) return;
+                if (isNavigationControl(event.target)) return;
+
+                pointerStart = {
+                    pointerId: event.pointerId,
+                    x: event.clientX,
+                    y: event.clientY
+                };
+            });
+
+            document.addEventListener('pointerup', (event) => {
+                if (!pointerStart || pointerStart.pointerId !== event.pointerId) {
+                    return;
+                }
+
+                const movementX = event.clientX - pointerStart.x;
+                const movementY = event.clientY - pointerStart.y;
+                const movement = Math.hypot(movementX, movementY);
+
+                pointerStart = null;
+
+                if (movement > maximumTapMovement) return;
+                if (isNavigationControl(event.target)) return;
+
+                const clickedOnLeftHalf = event.clientX < window.innerWidth / 2;
+
+                if (clickedOnLeftHalf) {
+                    showPreviousStep();
+                } else {
+                    showNextStep();
+                }
+            });
+
+            document.addEventListener('pointercancel', () => {
+                pointerStart = null;
             });
 
             showStep(0);

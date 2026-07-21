@@ -43,6 +43,9 @@ main {
     list-style: none;
     display: flex;
     gap: 16px;
+    flex-wrap: wrap;
+    padding: 8px;
+    justify-content: center;
 }
 
 .fragment-item {

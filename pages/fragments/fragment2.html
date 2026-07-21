@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Meuwren Fragment 2</title>
+
+    <link rel="stylesheet" href="../../styles/reset.css">
+    <link rel="stylesheet" href="../../styles/styles.css">
+
+    <style>
+        :root {
+            --signal-color: #ffffff;
+            --signal-accent: #a9c8ff;
+            --signal-error: #ff9595;
+        }
+
+        body {
+            overflow: hidden;
+            background:
+                radial-gradient(
+                    circle at center,
+                    rgba(255, 255, 255, 0.035),
+                    transparent 38%
+                ),
+                #000000;
+        }
+
+        main {
+            width: 100%;
+            height: 100vh;
+            height: 100svh;
+
+            padding: 72px 24px 40px;
+
+            user-select: none;
+            touch-action: manipulation;
+        }
+
+        .language-selector {
+            z-index: 10;
+        }
+
+        .paragraph {
+            width: 100%;
+            max-width: 800px;
+            margin: 0;
+
+            color: #ffffff;
+
+            font-size: clamp(14px, 2vw, 18px);
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        .paragraph--muted {
+            color: rgba(255, 255, 255, 0.68);
+        }
+
+        .paragraph--final {
+            max-width: 900px;
+
+            font-size: clamp(19px, 3vw, 30px);
+            font-weight: 300;
+            line-height: 1.55;
+        }
+
+        .fragment-step {
+            display: none;
+
+            width: 100%;
+            min-height: calc(100svh - 112px);
+
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            gap: 32px;
+        }
+
+        .fragment-step--active {
+            display: flex;
+            animation: fragment-step-appearance 0.4s ease-out;
+        }
+
+        @keyframes fragment-step-appearance {
+            from {
+                opacity: 0;
+                transform: translateX(12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .signal-stage {
+            position: relative;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            width: min(100%, 960px);
+            min-height: 220px;
+        }
+
+        .signal-stage::before {
+            position: absolute;
+            inset: 50% 0 auto;
+
+            height: 1px;
+
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.08) 18%,
+                rgba(255, 255, 255, 0.08) 82%,
+                transparent
+            );
+
+            content: "";
+        }
+
+        .signal {
+            position: relative;
+            z-index: 1;
+
+            display: flex;
+            align-items: center;
+
+            gap: clamp(20px, 5vw, 64px);
+        }
+
+        .signal-point {
+            position: relative;
+
+            display: block;
+
+            width: clamp(9px, 1.4vw, 15px);
+            aspect-ratio: 1;
+
+            border-radius: 50%;
+
+            background-color: var(--signal-color);
+            box-shadow:
+                0 0 10px rgba(255, 255, 255, 0.52),
+                0 0 30px rgba(255, 255, 255, 0.16);
+
+            flex: 0 0 auto;
+        }
+
+        .signal-point--memory-1 {
+            opacity: 0.18;
+        }
+
+        .signal-point--memory-2 {
+            opacity: 0.34;
+        }
+
+        .signal-point--memory-3 {
+            opacity: 0.58;
+        }
+
+        .signal-point--current {
+            animation: signal-breathe 2.4s ease-in-out infinite;
+        }
+
+        .signal-point--expected {
+            width: clamp(12px, 1.8vw, 19px);
+
+            border: 1px solid var(--signal-accent);
+
+            background-color: transparent;
+            box-shadow:
+                0 0 14px rgba(169, 200, 255, 0.28),
+                inset 0 0 10px rgba(169, 200, 255, 0.08);
+
+            animation: expectation-pulse 2s ease-in-out infinite;
+        }
+
+        .signal-point--unexpected {
+            margin-left: clamp(-10px, -1vw, -4px);
+
+            background-color: var(--signal-error);
+            box-shadow:
+                0 0 12px rgba(255, 149, 149, 0.65),
+                0 0 34px rgba(255, 149, 149, 0.2);
+        }
+
+        .signal-point--large {
+            width: clamp(16px, 2.4vw, 26px);
+        }
+
+        .signal-point--waiting::after {
+            position: absolute;
+            inset: 50% auto auto 50%;
+
+            width: 180%;
+            aspect-ratio: 1;
+
+            border: 1px solid rgba(169, 200, 255, 0.32);
+            border-radius: 50%;
+
+            transform: translate(-50%, -50%);
+
+            animation: waiting-ring 2.5s ease-out infinite;
+
+            content: "";
+        }
+
+        .signal-link {
+            width: clamp(18px, 4vw, 52px);
+            height: 1px;
+
+            margin-inline: clamp(-18px, -2.4vw, -10px);
+
+            background: linear-gradient(
+                90deg,
+                rgba(169, 200, 255, 0.35),
+                rgba(255, 149, 149, 0.7)
+            );
+        }
+
+        .signal-field {
+            position: relative;
+
+            width: min(92vw, 980px);
+            height: clamp(230px, 38vh, 410px);
+
+            overflow: hidden;
+        }
+
+        .signal-field__point {
+            position: absolute;
+
+            width: 5px;
+            aspect-ratio: 1;
+
+            border-radius: 50%;
+
+            background-color: rgba(255, 255, 255, var(--opacity, 0.5));
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.28);
+
+            animation:
+                field-pulse var(--duration, 3s) ease-in-out infinite,
+                field-drift calc(var(--duration, 3s) * 2.4)
+                    ease-in-out infinite alternate;
+            animation-delay: var(--delay, 0s);
+        }
+
+        .signal-field__point--expected {
+            width: 11px;
+
+            border: 1px solid var(--signal-accent);
+
+            background: transparent;
+            box-shadow: 0 0 18px rgba(169, 200, 255, 0.32);
+        }
+
+        @keyframes signal-breathe {
+            0%,
+            100% {
+                transform: scale(0.92);
+                opacity: 0.75;
+            }
+
+            50% {
+                transform: scale(1.12);
+                opacity: 1;
+            }
+        }
+
+        @keyframes expectation-pulse {
+            0%,
+            100% {
+                transform: scale(0.88);
+                opacity: 0.5;
+            }
+
+            50% {
+                transform: scale(1.08);
+                opacity: 1;
+            }
+        }
+
+        @keyframes waiting-ring {
+            0% {
+                transform: translate(-50%, -50%) scale(0.55);
+                opacity: 0;
+            }
+
+            28% {
+                opacity: 0.85;
+            }
+
+            100% {
+                transform: translate(-50%, -50%) scale(1.45);
+                opacity: 0;
+            }
+        }
+
+        @keyframes field-pulse {
+            0%,
+            100% {
+                opacity: calc(var(--opacity, 0.5) * 0.55);
+                transform: scale(0.72);
+            }
+
+            50% {
+                opacity: var(--opacity, 0.5);
+                transform: scale(1.16);
+            }
+        }
+
+        @keyframes field-drift {
+            from {
+                margin-left: -4px;
+                margin-top: -3px;
+            }
+
+            to {
+                margin-left: 5px;
+                margin-top: 4px;
+            }
+        }
+
+        .fragment-step--end {
+            text-align: center;
+            gap: 16px;
+        }
+
+        .fragment-end__label {
+            margin: 0;
+
+            color: #ffffff;
+
+            font-size: 14px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+
+            opacity: 0.6;
+        }
+
+        .fragment-end__title {
+            margin: 0;
+
+            color: #ffffff;
+
+            font-size: clamp(28px, 6vw, 56px);
+            font-weight: 200;
+        }
+
+        .fragment-end__hint {
+            margin: 16px 0 0;
+
+            color: #ffffff;
+
+            font-size: 13px;
+            line-height: 1.5;
+
+            opacity: 0.45;
+        }
+
+        .fragment-end__hint--touch {
+            display: none;
+        }
+
+        .fragment-end__exit {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+
+            margin-top: 24px;
+            padding: 12px 24px;
+
+            border: 1px solid #ffffff;
+
+            color: #ffffff;
+            background-color: transparent;
+
+            font-family: inherit;
+            font-size: 14px;
+            text-decoration: none;
+
+            transition:
+                color 0.2s ease,
+                background-color 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .fragment-end__exit:hover {
+            color: #000000;
+            background-color: #ffffff;
+        }
+
+        .fragment-end__exit:active {
+            transform: scale(0.97);
+        }
+
+        .fragment-end__exit:focus-visible {
+            outline: 2px solid #ffffff;
+            outline-offset: 4px;
+        }
+
+        @media (max-width: 740px) {
+            main {
+                padding: 24px 16px 80px;
+            }
+
+            .fragment-step {
+                min-height: calc(100svh - 104px);
+                gap: 24px;
+            }
+
+            .paragraph {
+                padding-inline: 4px;
+            }
+
+            .paragraph--final {
+                font-size: clamp(20px, 6vw, 27px);
+            }
+
+            .signal-stage {
+                min-height: 180px;
+            }
+
+            .signal {
+                gap: clamp(14px, 6vw, 28px);
+            }
+
+            .signal-link {
+                width: 22px;
+                margin-inline: -12px;
+            }
+
+            .signal-field {
+                width: 100vw;
+                height: min(42svh, 340px);
+
+                margin-inline: calc(50% - 50vw);
+            }
+        }
+
+        @media (hover: none) and (pointer: coarse) {
+            .fragment-end__hint--desktop {
+                display: none;
+            }
+
+            .fragment-end__hint--touch {
+                display: block;
+            }
+
+            .fragment-end__exit {
+                min-width: 220px;
+                min-height: 48px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .fragment-step--active,
+            .signal-point,
+            .signal-point--expected,
+            .signal-point--waiting::after,
+            .signal-field__point {
+                animation: none;
+            }
+
+            .fragment-end__exit {
+                transition: none;
+            }
+        }
+    </style>
+</head>
+
+<body data-fragment="fragment2">
+    <div class="language-selector">
+        <ul class="language-selector__list">
+            <li class="language-selector__item" data-lang="en">
+                English
+            </li>
+
+            <li class="language-selector__item" data-lang="ru">
+                Русский
+            </li>
+        </ul>
+    </div>
+
+    <main id="fragment-player" aria-live="polite">
+        <section class="fragment-step">
+            <div
+                class="signal-stage"
+                role="img"
+                aria-label=""
+                data-i18n-aria="firstSignalAria"
+            >
+                <div class="signal" aria-hidden="true">
+                    <span
+                        class="signal-point signal-point--large signal-point--current"
+                    ></span>
+                </div>
+            </div>
+        </section>
+
+        <section class="fragment-step">
+            <div
+                class="signal-stage"
+                role="img"
+                aria-label=""
+                data-i18n-aria="repetitionAria"
+            >
+                <div class="signal" aria-hidden="true">
+                    <span class="signal-point signal-point--memory-1"></span>
+                    <span class="signal-point signal-point--memory-2"></span>
+                    <span class="signal-point signal-point--memory-3"></span>
+                    <span class="signal-point signal-point--current"></span>
+                </div>
+            </div>
+
+            <p
+                class="paragraph paragraph--muted"
+                data-i18n="changes"
+            ></p>
+        </section>
+
+        <section class="fragment-step">
+            <div
+                class="signal-stage"
+                role="img"
+                aria-label=""
+                data-i18n-aria="memoryAria"
+            >
+                <div class="signal" aria-hidden="true">
+                    <span class="signal-point signal-point--memory-1"></span>
+                    <span class="signal-point signal-point--memory-2"></span>
+                    <span class="signal-point signal-point--memory-3"></span>
+                    <span class="signal-point"></span>
+                    <span class="signal-point signal-point--expected"></span>
+                </div>
+            </div>
+
+            <p class="paragraph" data-i18n="memory"></p>
+        </section>
+
+        <section class="fragment-step">
+            <div
+                class="signal-stage"
+                role="img"
+                aria-label=""
+                data-i18n-aria="expectationAria"
+            >
+                <div class="signal" aria-hidden="true">
+                    <span class="signal-point signal-point--memory-1"></span>
+                    <span class="signal-point signal-point--memory-2"></span>
+                    <span class="signal-point signal-point--memory-3"></span>
+                    <span class="signal-point"></span>
+                    <span
+                        class="signal-point signal-point--expected signal-point--large"
+                    ></span>
+                </div>
+            </div>
+        </section>
+
+        <section class="fragment-step">
+            <div
+                class="signal-stage"
+                role="img"
+                aria-label=""
+                data-i18n-aria="mismatchAria"
+            >
+                <div class="signal" aria-hidden="true">
+                    <span class="signal-point signal-point--memory-1"></span>
+                    <span class="signal-point signal-point--memory-2"></span>
+                    <span class="signal-point signal-point--memory-3"></span>
+                    <span class="signal-point"></span>
+                    <span class="signal-point signal-point--expected"></span>
+                    <span class="signal-link"></span>
+                    <span
+                        class="signal-point signal-point--unexpected signal-point--large"
+                    ></span>
+                </div>
+            </div>
+
+            <p class="paragraph" data-i18n="noSurprise"></p>
+        </section>
+
+        <section class="fragment-step">
+            <p class="paragraph" data-i18n="noFear"></p>
+        </section>
+
+        <section class="fragment-step">
+            <p class="paragraph" data-i18n="difference"></p>
+        </section>
+
+        <section class="fragment-step">
+            <div
+                class="signal-stage"
+                role="img"
+                aria-label=""
+                data-i18n-aria="futureAria"
+            >
+                <div class="signal" aria-hidden="true">
+                    <span class="signal-point signal-point--memory-1"></span>
+                    <span class="signal-point signal-point--memory-2"></span>
+                    <span class="signal-point signal-point--memory-3"></span>
+                    <span class="signal-point signal-point--current"></span>
+                    <span class="signal-point signal-point--expected"></span>
+                </div>
+            </div>
+
+            <p class="paragraph" data-i18n="future"></p>
+        </section>
+
+        <section class="fragment-step">
+            <p class="paragraph" data-i18n="emergence"></p>
+        </section>
+
+        <section class="fragment-step">
+            <p class="paragraph" data-i18n="noBody"></p>
+
+            <p
+                class="paragraph paragraph--muted"
+                data-i18n="noPlace"
+            ></p>
+        </section>
+
+        <section class="fragment-step">
+            <p class="paragraph" data-i18n="noDirection"></p>
+        </section>
+
+        <section class="fragment-step">
+            <div
+                class="signal-field"
+                role="img"
+                aria-label=""
+                data-i18n-aria="streamAria"
+            >
+                <span class="signal-field__point" style="left: 8%; top: 45%; --opacity: 0.18; --duration: 4.3s; --delay: -1.2s;"></span>
+                <span class="signal-field__point" style="left: 14%; top: 22%; --opacity: 0.35; --duration: 3.4s; --delay: -2.1s;"></span>
+                <span class="signal-field__point" style="left: 20%; top: 68%; --opacity: 0.28; --duration: 5.1s; --delay: -0.7s;"></span>
+                <span class="signal-field__point" style="left: 27%; top: 37%; --opacity: 0.7; --duration: 2.8s; --delay: -1.9s;"></span>
+                <span class="signal-field__point" style="left: 34%; top: 57%; --opacity: 0.42; --duration: 4.6s; --delay: -3.1s;"></span>
+                <span class="signal-field__point" style="left: 41%; top: 18%; --opacity: 0.24; --duration: 5.3s; --delay: -2.5s;"></span>
+                <span class="signal-field__point" style="left: 48%; top: 48%; --opacity: 0.9; --duration: 3.1s; --delay: -1.4s;"></span>
+                <span class="signal-field__point" style="left: 55%; top: 72%; --opacity: 0.32; --duration: 4.8s; --delay: -0.4s;"></span>
+                <span class="signal-field__point" style="left: 62%; top: 28%; --opacity: 0.58; --duration: 3.7s; --delay: -2.8s;"></span>
+                <span class="signal-field__point" style="left: 70%; top: 53%; --opacity: 0.2; --duration: 5.5s; --delay: -1.1s;"></span>
+                <span class="signal-field__point" style="left: 78%; top: 34%; --opacity: 0.48; --duration: 3.9s; --delay: -2.2s;"></span>
+                <span class="signal-field__point" style="left: 86%; top: 64%; --opacity: 0.26; --duration: 4.9s; --delay: -3.4s;"></span>
+                <span class="signal-field__point signal-field__point--expected" style="left: 91%; top: 44%; --opacity: 0.86; --duration: 2.7s; --delay: -0.8s;"></span>
+            </div>
+
+            <p
+                class="paragraph paragraph--muted"
+                data-i18n="onlyStream"
+            ></p>
+        </section>
+
+        <section class="fragment-step">
+            <div
+                class="signal-stage"
+                role="img"
+                aria-label=""
+                data-i18n-aria="waitingAria"
+            >
+                <div class="signal" aria-hidden="true">
+                    <span class="signal-point signal-point--memory-1"></span>
+                    <span class="signal-point signal-point--memory-2"></span>
+                    <span class="signal-point signal-point--memory-3"></span>
+                    <span class="signal-point"></span>
+                    <span
+                        class="signal-point signal-point--expected signal-point--large signal-point--waiting"
+                    ></span>
+                </div>
+            </div>
+
+            <p
+                class="paragraph paragraph--final"
+                data-i18n="final"
+            ></p>
+        </section>
+
+        <section class="fragment-step fragment-step--end">
+            <p class="fragment-end__label" data-i18n="endLabel"></p>
+
+            <p class="fragment-end__title">
+                Meuwren Fragments
+            </p>
+
+            <p
+                class="fragment-end__hint fragment-end__hint--desktop"
+                data-i18n="endHintDesktop"
+            ></p>
+
+            <p
+                class="fragment-end__hint fragment-end__hint--touch"
+                data-i18n="endHintTouch"
+            ></p>
+
+            <a
+                class="fragment-end__exit"
+                href="../../index.html"
+                data-i18n="exitButton"
+            ></a>
+        </section>
+    </main>
+
+    <script src="../../scripts/lang.js"></script>
+
+    <script>
+        (() => {
+            const fragmentPlayer = document.querySelector('#fragment-player');
+            const steps = Array.from(
+                fragmentPlayer?.querySelectorAll(':scope > .fragment-step') ?? []
+            );
+
+            if (steps.length === 0) return;
+
+            let currentStepIndex = 0;
+
+            function showStep(index) {
+                const nextIndex = Math.max(
+                    0,
+                    Math.min(index, steps.length - 1)
+                );
+
+                steps.forEach((step, stepIndex) => {
+                    const isActive = stepIndex === nextIndex;
+
+                    step.classList.toggle(
+                        'fragment-step--active',
+                        isActive
+                    );
+
+                    step.setAttribute(
+                        'aria-hidden',
+                        String(!isActive)
+                    );
+                });
+
+                currentStepIndex = nextIndex;
+            }
+
+            function showNextStep() {
+                showStep(currentStepIndex + 1);
+            }
+
+            function showPreviousStep() {
+                showStep(currentStepIndex - 1);
+            }
+
+            function isInteractiveElement(target) {
+                return target instanceof HTMLElement && (
+                    target.isContentEditable ||
+                    target.matches(
+                        'input, textarea, select, button, a'
+                    )
+                );
+            }
+
+            document.addEventListener('keydown', (event) => {
+                if (
+                    event.repeat ||
+                    isInteractiveElement(event.target)
+                ) {
+                    return;
+                }
+
+                const forwardKeys = [
+                    'Space',
+                    'Enter',
+                    'ArrowRight'
+                ];
+
+                if (forwardKeys.includes(event.code)) {
+                    event.preventDefault();
+                    showNextStep();
+                    return;
+                }
+
+                if (event.code === 'ArrowLeft') {
+                    event.preventDefault();
+                    showPreviousStep();
+                }
+            });
+
+            let pointerStart = null;
+            const maximumTapMovement = 12;
+
+            function isNavigationControl(target) {
+                return target instanceof Element && (
+                    target.closest('.language-selector') ||
+                    target.closest(
+                        'input, textarea, select, button, a'
+                    )
+                );
+            }
+
+            document.addEventListener('pointerdown', (event) => {
+                if (
+                    event.pointerType === 'mouse' &&
+                    event.button !== 0
+                ) {
+                    return;
+                }
+
+                if (isNavigationControl(event.target)) {
+                    return;
+                }
+
+                pointerStart = {
+                    pointerId: event.pointerId,
+                    x: event.clientX,
+                    y: event.clientY
+                };
+            });
+
+            document.addEventListener('pointerup', (event) => {
+                if (
+                    !pointerStart ||
+                    pointerStart.pointerId !== event.pointerId
+                ) {
+                    return;
+                }
+
+                const movementX = event.clientX - pointerStart.x;
+                const movementY = event.clientY - pointerStart.y;
+                const movement = Math.hypot(movementX, movementY);
+
+                pointerStart = null;
+
+                if (
+                    movement > maximumTapMovement ||
+                    isNavigationControl(event.target)
+                ) {
+                    return;
+                }
+
+                const clickedOnLeftHalf =
+                    event.clientX < window.innerWidth / 2;
+
+                if (clickedOnLeftHalf) {
+                    showPreviousStep();
+                } else {
+                    showNextStep();
+                }
+            });
+
+            document.addEventListener('pointercancel', () => {
+                pointerStart = null;
+            });
+
+            showStep(0);
+        })();
+    </script>
+</body>
+</html>

@@ -33,6 +33,7 @@
         .paragraph {
             width: 100%;
             max-width: 800px;
+            margin: 0;
 
             color: #ffffff;
 
@@ -41,8 +42,6 @@
             text-align: center;
         }
 
-        /* Dialogue */
-
         .dialogue {
             width: min(100%, 720px);
             margin: 0;
@@ -50,10 +49,12 @@
 
             border-left: 1px solid rgba(255, 255, 255, 0.6);
 
-            color: #ffffff;
+            color: #ff9595;
         }
 
         .dialogue__text {
+            margin: 0;
+
             font-size: clamp(14px, 2vw, 18px);
             font-weight: 400;
             font-style: italic;
@@ -68,8 +69,6 @@
         .dialogue--final .dialogue__text {
             font-size: clamp(15px, 2.2vw, 19px);
         }
-
-        /* Images */
 
         .image-container {
             display: flex;
@@ -93,12 +92,11 @@
             object-position: var(--image-position, center);
         }
 
-        /* Frames */
-
         .fragment-step {
             display: none;
 
             width: 100%;
+            min-height: calc(100svh - 112px);
 
             flex-direction: column;
             justify-content: center;
@@ -124,14 +122,14 @@
             }
         }
 
-        /* End screen */
-
         .fragment-step--end {
             text-align: center;
             gap: 16px;
         }
 
         .fragment-end__label {
+            margin: 0;
+
             color: #ffffff;
 
             font-size: 14px;
@@ -142,6 +140,8 @@
         }
 
         .fragment-end__title {
+            margin: 0;
+
             color: #ffffff;
 
             font-size: clamp(28px, 6vw, 56px);
@@ -149,7 +149,7 @@
         }
 
         .fragment-end__hint {
-            margin-top: 16px;
+            margin: 16px 0 0;
 
             color: #ffffff;
 
@@ -200,11 +200,14 @@
             outline-offset: 4px;
         }
 
-        /* Mobile */
-
         @media (max-width: 740px) {
             main {
                 padding: 24px 16px 80px;
+            }
+
+            .fragment-step {
+                min-height: calc(100svh - 104px);
+                gap: 24px;
             }
 
             .image-container {
@@ -225,10 +228,6 @@
 
                 object-fit: cover;
                 object-position: var(--image-position, center);
-            }
-
-            .fragment-step {
-                gap: 24px;
             }
 
             .paragraph {
@@ -287,13 +286,12 @@
     </div>
 
     <main id="fragment-player" aria-live="polite">
-        <!-- Frame 1: text + image -->
-
         <section class="fragment-step">
             <div class="image-container">
                 <img
                     src="../../images/fragment1/1.png"
-                    alt="Elias's graduation photograph"
+                    alt=""
+                    data-i18n-alt="graduationPhotoAlt"
                     style="--image-position: center;"
                 >
             </div>
@@ -301,13 +299,12 @@
             <p class="paragraph" data-i18n="parents"></p>
         </section>
 
-        <!-- Frame 2: text + image -->
-
         <section class="fragment-step">
             <div class="image-container">
                 <img
                     src="../../images/fragment1/2.png"
-                    alt="Elias twenty years later"
+                    alt=""
+                    data-i18n-alt="olderEliasAlt"
                     style="--image-position: center;"
                 >
             </div>
@@ -315,31 +312,24 @@
             <p class="paragraph" data-i18n="patience"></p>
         </section>
 
-        <!-- Frame 3: text -->
-
         <section class="fragment-step">
             <p class="paragraph" data-i18n="responsibility"></p>
         </section>
-
-        <!-- Frame 4: text -->
 
         <section class="fragment-step">
             <p class="paragraph" data-i18n="fear"></p>
         </section>
 
-        <!-- Frame 5: text -->
-
         <section class="fragment-step">
             <p class="paragraph" data-i18n="oneDay"></p>
         </section>
-
-        <!-- Frame 6: text + image -->
 
         <section class="fragment-step">
             <div class="image-container">
                 <img
                     src="../../images/fragment1/1.png"
-                    alt="Elias's graduation photograph"
+                    alt=""
+                    data-i18n-alt="graduationPhotoAlt"
                     style="--image-position: center;"
                 >
             </div>
@@ -347,31 +337,27 @@
             <p class="paragraph" data-i18n="rightMoment"></p>
         </section>
 
-        <!-- Frame 7: text -->
-
         <section class="fragment-step">
             <p class="paragraph" data-i18n="mirrorBeginning"></p>
         </section>
-
-        <!-- Frame 8: image -->
 
         <section class="fragment-step">
             <div class="image-container">
                 <img
                     src="../../images/fragment1/3.png"
-                    alt="Elias looking into a mirror"
+                    alt=""
+                    data-i18n-alt="mirrorAlt"
                     style="--image-position: center;"
                 >
             </div>
         </section>
 
-        <!-- Frame 9: image + text -->
-
         <section class="fragment-step">
             <div class="image-container">
                 <img
                     src="../../images/fragment1/3.png"
-                    alt="Elias looking into a mirror"
+                    alt=""
+                    data-i18n-alt="mirrorAlt"
                     style="--image-position: center;"
                 >
             </div>
@@ -379,13 +365,12 @@
             <p class="paragraph" data-i18n="reflection"></p>
         </section>
 
-        <!-- Frame 10: text + image -->
-
         <section class="fragment-step">
             <div class="image-container">
                 <img
                     src="../../images/fragment1/4.png"
-                    alt="The graduation photograph burning"
+                    alt=""
+                    data-i18n-alt="burningPhotoAlt"
                     style="--image-position: center;"
                 >
             </div>
@@ -395,23 +380,17 @@
             </blockquote>
         </section>
 
-        <!-- Frame 11: text -->
-
         <section class="fragment-step">
             <blockquote class="dialogue dialogue--final">
-                <p class="dialogue__text" data-i18n="finalQuestion"></p>
+                <p
+                    class="dialogue__text"
+                    data-i18n="finalQuestion"
+                ></p>
             </blockquote>
         </section>
 
-        <!-- End screen -->
-
         <section class="fragment-step fragment-step--end">
-            <p
-                class="fragment-end__label"
-                data-i18n="endLabel"
-            >
-                Фрагмент завершён
-            </p>
+            <p class="fragment-end__label" data-i18n="endLabel"></p>
 
             <p class="fragment-end__title">
                 Meuwren Fragments
@@ -420,24 +399,18 @@
             <p
                 class="fragment-end__hint fragment-end__hint--desktop"
                 data-i18n="endHintDesktop"
-            >
-                Нажмите слева или используйте ←, чтобы вернуться
-            </p>
+            ></p>
 
             <p
                 class="fragment-end__hint fragment-end__hint--touch"
                 data-i18n="endHintTouch"
-            >
-                Коснитесь левой части экрана, чтобы вернуться
-            </p>
+            ></p>
 
             <a
                 class="fragment-end__exit"
                 href="../../index.html"
                 data-i18n="exitButton"
-            >
-                Вернуться к фрагментам
-            </a>
+            ></a>
         </section>
     </main>
 
@@ -446,7 +419,6 @@
     <script>
         (() => {
             const fragmentPlayer = document.querySelector('#fragment-player');
-
             const steps = Array.from(
                 fragmentPlayer?.querySelectorAll(':scope > .fragment-step') ?? []
             );
@@ -495,10 +467,6 @@
                 );
             }
 
-            /*
-                Keyboard navigation
-            */
-
             document.addEventListener('keydown', (event) => {
                 if (
                     event.repeat ||
@@ -525,12 +493,7 @@
                 }
             });
 
-            /*
-                Mouse and touch navigation
-            */
-
             let pointerStart = null;
-
             const maximumTapMovement = 12;
 
             function isNavigationControl(target) {
@@ -569,24 +532,16 @@
                     return;
                 }
 
-                const movementX =
-                    event.clientX - pointerStart.x;
-
-                const movementY =
-                    event.clientY - pointerStart.y;
-
-                const movement = Math.hypot(
-                    movementX,
-                    movementY
-                );
+                const movementX = event.clientX - pointerStart.x;
+                const movementY = event.clientY - pointerStart.y;
+                const movement = Math.hypot(movementX, movementY);
 
                 pointerStart = null;
 
-                if (movement > maximumTapMovement) {
-                    return;
-                }
-
-                if (isNavigationControl(event.target)) {
+                if (
+                    movement > maximumTapMovement ||
+                    isNavigationControl(event.target)
+                ) {
                     return;
                 }
 

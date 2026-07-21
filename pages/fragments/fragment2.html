@@ -182,16 +182,25 @@
         }
 
         .signal-point--unexpected {
-            margin-left: clamp(-10px, -1vw, -4px);
-
             background-color: var(--signal-error);
             box-shadow:
-                0 0 12px rgba(255, 149, 149, 0.65),
-                0 0 34px rgba(255, 149, 149, 0.2);
+                0 0 8px rgba(255, 149, 149, 0.48),
+                0 0 22px rgba(255, 149, 149, 0.14);
         }
 
         .signal-point--large {
             width: clamp(16px, 2.4vw, 26px);
+        }
+
+        .signal-point--unexpected.signal-point--large {
+            width: clamp(11px, 1.65vw, 17px);
+        }
+
+        .signal-mismatch {
+            display: inline-flex;
+            align-items: center;
+
+            flex: 0 0 auto;
         }
 
         .signal-point--waiting::after {
@@ -212,16 +221,16 @@
         }
 
         .signal-link {
-            width: clamp(18px, 4vw, 52px);
+            width: clamp(24px, 4vw, 48px);
             height: 1px;
-
-            margin-inline: clamp(-18px, -2.4vw, -10px);
 
             background: linear-gradient(
                 90deg,
-                rgba(169, 200, 255, 0.35),
-                rgba(255, 149, 149, 0.7)
+                rgba(169, 200, 255, 0.5),
+                rgba(255, 149, 149, 0.55)
             );
+
+            flex: 0 0 auto;
         }
 
         .signal-field {
@@ -433,7 +442,6 @@
 
             .signal-link {
                 width: 22px;
-                margin-inline: -12px;
             }
 
             .signal-field {
@@ -575,11 +583,13 @@
                     <span class="signal-point signal-point--memory-2"></span>
                     <span class="signal-point signal-point--memory-3"></span>
                     <span class="signal-point"></span>
-                    <span class="signal-point signal-point--expected"></span>
-                    <span class="signal-link"></span>
-                    <span
-                        class="signal-point signal-point--unexpected signal-point--large"
-                    ></span>
+                    <span class="signal-mismatch">
+                        <span class="signal-point signal-point--expected"></span>
+                        <span class="signal-link"></span>
+                        <span
+                            class="signal-point signal-point--unexpected signal-point--large"
+                        ></span>
+                    </span>
                 </div>
             </div>
 
